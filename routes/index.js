@@ -1,13 +1,12 @@
 const router = require('express').Router();
 
-const UserRouter = require('./user.route');
-const RoomRouter = require('./room.route');
+
 const AdminRouter = require('./admin.route');
 const NurseRouter = require('./nurse.route');
+const DoctorRouter = require('./doctor.route');
 
-// router.use('/', UserRouter)
-// router.use('/', RoomRouter)
 router.use('/', AdminRouter)
 router.use('/', NurseRouter)
+router.use('/', DoctorRouter)
 
 module.exports = router

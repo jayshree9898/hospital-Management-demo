@@ -18,6 +18,7 @@ app.use(bodyParser.json({ limit: "50mb" }))
 //.................call database connection function.....
 config.dbConnection()
 
+
 //......................router.............
 const router = require('./routes/index');
 app.use('/api/v1/', router)

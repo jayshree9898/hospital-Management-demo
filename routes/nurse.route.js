@@ -16,6 +16,8 @@ router.post('/add-patient',auth.authUser,nurseController.addPatients);
 
 router.get('/get-all-beds-nurse',auth.authUser,nurseController.getAllBeds);
 
-router.post('/book-appointment',auth.authUser,nurseController.bookAppointment)
+router.get('/get-patient-details',auth.authUser,nurseController.getPatientDetails);
+
+router.post('/book-appointment',auth.authUser,nurseController.bookAppointment);
 
 module.exports = router

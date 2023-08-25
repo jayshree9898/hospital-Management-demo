@@ -37,7 +37,7 @@ const updateProfile = async (req, res) => {
         age: 'required|numeric',
         contact_number: 'required|numeric',
         gender: 'required|in:male,female,other',
-        blood_group: 'required|in:A+, A-, B+, B-, AB+, AB-, O+, O-',
+        blood_group: 'required|in:A+,A-,B+,B-,AB+,AB-,O+,O-',
         birthdate: 'required|date',
         education: 'required|string',
     });
@@ -55,12 +55,12 @@ const updateProfile = async (req, res) => {
         }
 
         const findData = await Nurse.findOne({ _id: authUser._id }, '-password');
-
-        const updateProfile = await Nurse.updateOne({ name, age, contact_number, gender, blood_group, birthdate, education })
         if (!findData) {
             return RESPONSE.error(res, 1206)
         }
 
+        const updateProfile = await Nurse.updateOne({ name, age, contact_number, gender, blood_group, birthdate, education })
+        
         return RESPONSE.success(res, 1207, updateProfile)
     } catch (error) {
         console.log(error);
@@ -85,9 +85,9 @@ const addPatients = async (req, res) => {
         address: 'required|string',
         bed_number: 'required|numeric',
         room_number: 'required|numeric',
-        department: 'required|in:Cardiology,Neurology, ENT, Ophthalmologist, Anesthesiologist,Dermatologist,Oncologist,Psychiatrist',
+        department: 'required|in:Cardiology,Neurology,ENT,Ophthalmologist,Anesthesiologist,Dermatologist,Oncologist,Psychiatrist',
         doctor: 'required|string',
-        patient_blood_group: 'required|in:A+, A-, B+, B-, AB+, AB-, O+, O-',
+        patient_blood_group: 'required|in:A+,A-,B+,B-,AB+,AB-,O+,O-',
         password: 'required|string|min:8|max:15'
     });
     if (validation.fails()) {
@@ -121,7 +121,9 @@ const addPatients = async (req, res) => {
 }
 
 
+
 //.................get all beds...
+
 const getAllBeds = async (req, res) => {
     try {
         const authUser = req.user;
@@ -147,7 +149,7 @@ const getAllBeds = async (req, res) => {
                                         { $eq: ["$room_number", "$$roomNumber"] }
                                     ]
                                 },
-                                discharge: true
+                                discharge: false
                             }
                         }
                     ],
@@ -161,41 +163,35 @@ const getAllBeds = async (req, res) => {
         return RESPONSE.success(res, 1604, data);
     } catch (error) {
         console.log(error);
-        return RESPONSE.error(res, 9999)
+        return RESPONSE.error(res, 9999);
     }
 }
 
+//.........................get patient details.............
+const getPatientDetails = async (req, res) => {
+    try {
 
-// const getAllBeds = async (req, res) => {
-//     try {
-//         const authUser = req.user;
-//         if (authUser.role !== 'nurse') {
-//             return RESPONSE.error(res, 1205);
-//         }
+        const { page, limit } = req.query;
 
-//         const beds = await Beds.aggregate([
-//             {
-//                 $lookup: {
-//                     from: "patients",
-//                     localField: "bed_number",
-//                     foreignField: "bed_number",
-//                     as: "patient_detail"
-//                 }
-//             }
-//         ]).exec();
+        const authUser = req.user;
+        if (authUser.role !== 'nurse') {
+            return RESPONSE.error(res, 1205);
+        }
 
-//         if (!beds) {
-//             return RESPONSE.error(res, 1603);
-//         }
+        const patientDetails = await Patient.find()
+            .limit(limit * 1)
+            .skip((page - 1) * limit)
 
-//         return RESPONSE.success(res, 1604, beds);
-//     } catch (error) {
-//         console.log(error);
-//         return RESPONSE.error(res, 9999);
-//     }
-// }
+        if (!patientDetails) {
+            return RESPONSE.error(res, 1307)
+        }
 
-
+        return RESPONSE.success(res, 1302, patientDetails)
+    } catch (error) {
+        console.log(error);
+        return RESPONSE.error(res, 9999)
+    }
+}
 
 
 //..........................book appointment..................
@@ -239,5 +235,6 @@ module.exports = {
     updateProfile,
     addPatients,
     getAllBeds,
+    getPatientDetails,
     bookAppointment
 }

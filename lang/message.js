@@ -56,6 +56,9 @@ const MESSAGES = {
     '1501': 'add doctor successfully!',
     '1502': 'doctor already exist!',
     '1503': 'doctor not found',
+    '1504': 'get doctor profile successfully',
+    '1505': 'you are not doctor ',
+    '1506': 'update doctor profile successfully.',
 
     // beds  controller
     '1601': 'add bed successfully!',
