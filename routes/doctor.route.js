@@ -15,4 +15,7 @@ router.get('/get-patients-details',auth.authUser,doctorController.getPatientDeta
 router.get('/get-all-beds-by-doctor',auth.authUser,doctorController.getAllBeds)
 
 router.patch('/update-doctor-profile',auth.authUser,doctorController.updateProfile);
+
+router.post('/create-report',auth.authUser,doctorController.createReport);
+
 module.exports = router

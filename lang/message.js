@@ -59,6 +59,7 @@ const MESSAGES = {
     '1504': 'get doctor profile successfully',
     '1505': 'you are not doctor ',
     '1506': 'update doctor profile successfully.',
+    '1507': 'create report successfully.',
 
     // beds  controller
     '1601': 'add bed successfully!',

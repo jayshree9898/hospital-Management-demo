@@ -28,7 +28,7 @@ const reportSchema = mongoose.Schema({
     },
     email :{
         type: String,
-        required: true
+        required:false
     },
     patient_gender:{
         type: String,
@@ -63,13 +63,18 @@ const reportSchema = mongoose.Schema({
     },
     extra_info:{
         type: String,
-        required: true
-    },
-                  
-
     
-
-
+    },
+    medicines :{
+        type :String,
+        required:true
+    },
+    date:{
+        type : Date
+    },
+    time:{
+        type :Date
+    }
 
 });
 
